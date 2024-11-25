@@ -203,7 +203,7 @@ class AttentionalPooler(nn.Module):
         N = x.shape[0]
         x = self.ln_k(x)
         q = self.ln_q(self.query)
-        out = self.attn(q.unsqueeze(0).expand(N, -1, -1), x, x, need_weights=False)[0]
+        out = self.attn(q.unsqueeze(0).expand(N, -1, -1), x, x, need_weights=True)[0]
         return out
 
 
@@ -248,7 +248,7 @@ class ResidualAttentionBlock(nn.Module):
 
         attn_mask = attn_mask.to(q_x.dtype) if attn_mask is not None else None
         return self.attn(
-            q_x, k_x, v_x, need_weights=False, attn_mask=attn_mask
+            q_x, k_x, v_x, need_weights=True, attn_mask=attn_mask
         )[0]
 
     def forward(
